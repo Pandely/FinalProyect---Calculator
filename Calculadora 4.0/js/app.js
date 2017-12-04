@@ -1,25 +1,26 @@
 var calculadora = {
-	agregarNumero: function(num){
+	addNum: function(num){
 		var pantalla=$("#display").html();
 		if (pantalla==null || pantalla=="0") {
 			$("#display").html(num);
 		}else{
-			$("#display").html(pantalla+num);
+			if(pantalla.length<8)
+				$("#display").html(pantalla+num);
 		}
 	},
 
-	limpiarPantalla: function(){
+	clear: function(){
 		$("#display").html("0");
 	},
 
-	agregarPunto: function(){
+	addPoint: function(){
 		var pantalla=$("#display").html();
 		if (pantalla.indexOf(".")== -1) {
 			$("#display").html(pantalla+".");
 		}
 	},
 
-	agregarSigno: function(){
+	addSign: function(){
 		var pantalla=$("#display").html();
 		if (pantalla!="0") {
 			if (pantalla.indexOf("-") == -1) {
@@ -30,7 +31,7 @@ var calculadora = {
 		}
 	},
 
-	cantidadDigitos:function(){
+	numDigitos:function(){
 		var pantalla=$("#display").html();
 
 		if (pantalla.length>8) {
@@ -39,8 +40,8 @@ var calculadora = {
 		}
 	},
 
-	mediaOperacion: function(){
-		$("#display").html("");
+	operacion: function(){
+		$("#display").html("0");
 	},
 
 	sumar: function(num1, num2){
@@ -65,52 +66,53 @@ var calculadora = {
 	},
 	raizfun: function(num){
 		var resul=Math.sqrt(num);
-		var tam=resul.toString().length;
-		if(tam>8){
-			$('#display').html(resul.toFixed(5));
+		var size=resul.toString().length;
+		if(size>8){
+			$('#display').html(resul.toFixed(2));
 		}else{
 			$('#display').html(resul);
 		}
 	},
 
-	inicicializacion: function(){
+	init: function(){
 		$(".tecla").click(function(){
 			var alt=$(this).attr('alt');
 			if (alt!="punto" && alt!="signo" && alt!="raiz" && alt!="dividido" && alt!="por" && alt!="menos" && alt!="igual" && alt!="mas") {
-				calculadora.agregarNumero(alt);
-				calculadora.cantidadDigitos();
+				calculadora.addNum(alt);
+				calculadora.numDigitos();
 			}
 		});
 
 		$('#on').click(function(){
-			calculadora.limpiarPantalla();
+			calculadora.clear();
 		});
 		$('#punto').click(function(){
-			calculadora.agregarPunto();
+			calculadora.addPoint();
 		});
 		$('#sign').click(function(){
-			calculadora.agregarSigno();
+			calculadora.addSign();
 		});
 		var n1;
 		var op="";
+
 		$('#mas').click(function(){
 			n1=$('#display').html();
-			calculadora.mediaOperacion();
+			calculadora.operacion();
 			op="suma";
 		});
 		$('#menos').click(function(){
 			n1=$('#display').html();
-			calculadora.mediaOperacion();
+			calculadora.operacion();
 			op="resta";
 		});
 		$('#por').click(function(){
 			n1=$('#display').html();
-			calculadora.mediaOperacion();
+			calculadora.operacion();
 			op="multiplicacion";
 		});
 		$('#dividido').click(function(){
 			n1=$('#display').html();
-			calculadora.mediaOperacion();
+			calculadora.operacion();
 			op="division";
 		});
 		$('#raiz').click(function(){
@@ -118,7 +120,7 @@ var calculadora = {
 			var valor=$('#display').html();
 			if(valor!="0"){
 				if(valor.indexOf("RAIZ") == -1){
-					$('#display').html("RAIZ("+valor+")");
+					$('#display').html(valor);
 				}else{
 					$('#display').html(valor.substring(5,valor.length-1));
 				}
@@ -148,4 +150,4 @@ var calculadora = {
 	
 	}
 };
-calculadora.inicicializacion();
+calculadora.init();
